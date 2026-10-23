@@ -1,0 +1,17 @@
+Library,Setup WNS (ns),Setup TNS (ns),Hold WNS (ns),Hold TNS (ns),Setup status,Hold status,Log check
+sky130_fd_sc_hd__ff_100C_1v65,6.47,0.00,0.23,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ff_100C_1v95,6.78,0.00,0.14,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ff_n40C_1v56,6.16,0.00,0.31,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ff_n40C_1v65,6.40,0.00,0.25,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ff_n40C_1v76,6.61,0.00,0.20,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ff_n40C_1v95,6.83,0.00,0.14,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_100C_1v40,3.29,0.00,0.55,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_100C_1v60,4.96,0.00,0.67,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v28,-3.85,-6.76,0.66,Not reported,VIOLATION,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v35,0.08,0.00,0.23,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v40,1.69,0.00,0.31,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v44,2.54,0.00,0.53,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v60,4.78,0.00,0.57,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__ss_n40C_1v76,5.64,0.00,0.61,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__tt_025C_1v80,6.27,0.00,0.32,Not reported,PASS,PASS,CHECK LOG
+sky130_fd_sc_hd__tt_100C_1v80,6.26,0.00,0.32,Not reported,PASS,PASS,CHECK LOG

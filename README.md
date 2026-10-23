@@ -1,53 +1,34 @@
 # Automatic Fan Controller ASIC
 
-**Verilog RTL | SKY130HD | OpenROAD | Physical Design | 16-Corner Static Timing Analysis**
+**Verilog RTL · SKY130HD · OpenROAD · Physical Design · 16-Corner Static Timing Analysis**
 
 ## 1. Project Overview
 
-The Automatic Fan Controller ASIC is an RTL-based digital controller implemented in Verilog HDL. The design uses a temperature input to control fan operation and PWM output according to the behavior defined in the RTL and testbench.
+The Automatic Fan Controller ASIC is a Verilog-based digital controller that demonstrates temperature-dependent fan control and PWM generation. The RTL is checked with a testbench and then taken through an ASIC physical-design workflow using the SKY130HD standard-cell platform and OpenROAD.
 
-The project demonstrates functional simulation and an ASIC implementation workflow using the SKY130HD standard-cell platform and OpenROAD. It includes selected implementation reports, final physical-design outputs, and a 16-corner static timing analysis (STA) study.
+This repository presents the RTL and testbench, timing constraints, selected physical-design reports, final implementation outputs, and screenshots documenting key stages.
 
-### Project Highlights
+## 2. Objectives
 
-- Verilog RTL implementation of an automatic fan controller.
-- Icarus Verilog functional simulation and GTKWave waveform evidence.
-- SKY130HD standard-cell technology.
-- OpenROAD physical-design flow evidence.
-- Floorplanning, placement, clock-tree synthesis, routing, and final layout evidence.
-- Selected final netlist, DEF, SDC, and GDS outputs.
-- 16-corner STA scripts and summary reports.
+- Implement fan-control and PWM behavior in Verilog HDL.
+- Verify the design using Icarus Verilog and inspect the waveform in GTKWave.
+- Explore synthesis and the OpenROAD physical-design stages.
+- Preserve selected reports and final layout-related outputs.
+- Run static timing analysis across 16 library corners and report timing concerns transparently.
 
-## 2. Problem Statement
+## 3. Tools and Technology
 
-A conventional fan controller may use a fixed threshold or a separate controller circuit. This project explores how fan-control logic and PWM behavior can be described in Verilog and implemented as a standard-cell ASIC design. The design is evaluated through simulation, physical-design reports, and multi-corner timing analysis.
-
-## 3. Project Objectives
-
-1. Implement fan-control logic using Verilog HDL.
-2. Verify temperature-based fan and PWM behavior using a testbench.
-3. Inspect the simulation waveform.
-4. Synthesize and implement the design using the SKY130HD platform.
-5. Collect reports from key OpenROAD stages.
-6. Generate final physical-design outputs.
-7. Evaluate timing across 16 library corners.
-8. Document limitations and timing issues transparently.
-
-## 4. Design Technology and Tools
-
-| Parameter | Description |
+| Item | Tool / technology |
 |---|---|
-| Project | Automatic Fan Controller ASIC |
-| HDL | Verilog |
+| RTL | Verilog HDL |
 | Standard-cell platform | SKY130HD |
 | RTL simulation | Icarus Verilog |
-| Waveform viewer | GTKWave |
-| Physical-design flow | OpenROAD-flow-scripts |
+| Waveform inspection | GTKWave |
+| Physical design | OpenROAD / OpenROAD-flow-scripts |
 | Timing analysis | Static Timing Analysis (STA) |
-| Physical output | GDSII |
-| Clock constraint | See `Constraints/constraint.sdc` |
+| Layout output | GDSII |
 
-## 5. Repository Structure
+## 4. Repository Structure
 
 ```text
 Automatic-Fan-Controller-ASIC/
@@ -59,27 +40,43 @@ Automatic-Fan-Controller-ASIC/
 ├── Constraints/
 │   └── constraint.sdc
 ├── STA_Reports/
-│   ├── run_16_corner_sta.sh
-│   ├── run_16_corner_sta.tcl
 │   ├── STA_16_Corner_Summary.txt
 │   ├── STA_Corner_Summary.csv
-│   └── multi-corner logs
+│   ├── multi_corner_sta_before_optimization.log
+│   ├── multi_corner_sta_after_optimization.log
+│   ├── run_16_corner_sta.sh
+│   ├── run_16_corner_sta.tcl
+│   ├── run_16_corner_sta_alt.sh
+│   └── run_16_corner_sta_experiment.sh
 ├── OpenROAD/
-│   ├── selected implementation reports
+│   ├── 6_finish.rpt
+│   ├── config_no_port_buffers.mk
+│   ├── config_with_port_buffers.mk
 │   ├── detailed_route.log
-│   └── configuration files
+│   └── synth_stat.txt
 ├── Final_Outputs/
 │   ├── 6_final.v
 │   ├── 6_final.def
 │   ├── 6_final.sdc
 │   └── 6_1_merged.gds
 └── Screenshots/
-    └── selected simulation and implementation evidence
+    ├── 02_Testbench_Pass.png
+    ├── 03_PWM_Waveform.png
+    ├── 04_Synthesis_Report.png
+    ├── 05_Floorplan_Report.png
+    ├── 07_CTS_Report.png
+    ├── 08_Global_Route_Timing.png
+    ├── 09_Detailed_Routing_DRC.png
+    ├── 10_Final_Routed_Layout.png
+    ├── 12A_STA_16_Corner_Summary.png
+    └── 13_GDSII_Layout.png
 ```
 
-The package intentionally omits repeated intermediate OpenROAD databases and duplicated logs. Keep the original archive as the complete run backup.
+*This tree documents the intended presentation structure. Keep only files that actually exist in the repository, and adjust names if your uploaded files differ.*
 
-## 6. Functional Verification
+## 5. Functional Verification
+
+### Run the testbench
 
 From the repository root, run:
 
@@ -88,32 +85,71 @@ iverilog -o /tmp/fan_controller_sim RTL/fan_controller.v RTL/fan_controller_tb.v
 vvp /tmp/fan_controller_sim
 ```
 
-The recorded simulation output reported **18 checks passed**. Refer to the testbench and simulation evidence for the exact scenarios exercised.
+The recorded simulation run reports **18 checks passed**. The testbench output includes checks of temperature-dependent duty-cycle values, PWM-period behavior, disable behavior, and asynchronous reset. See the testbench for the exact assertions and scenarios.
 
-## 7. ASIC Implementation Flow
+### Testbench result
 
-The physical-design evidence covers synthesis, floorplanning, placement, clock-tree synthesis, global routing, detailed routing, and final layout generation. Selected reports are in `OpenROAD/`, while final artifacts are in `Final_Outputs/`.
+![Testbench verification output](Screenshots/02_Testbench_Pass.png)
 
-The detailed-routing log for the recorded run reports zero detailed-route violations and zero antenna, net, and pin violations. This is a result for that specific run, not a claim of complete manufacturing sign-off.
+### PWM waveform
 
-## 8. Multi-Corner Static Timing Analysis
+![PWM waveform in GTKWave](Screenshots/03_PWM_Waveform.png)
 
-The repository contains scripts and summaries for 16 SKY130HD library corners. Different process, voltage, and temperature conditions can change path delay and timing margin.
+## 6. ASIC Physical-Design Flow
 
-**Timing status:** The supplied 16-corner summary marks multiple corners `REVIEW`, and some reported slack values are negative. In particular, the summary includes a worst minimum slack of **-2.53 ns** and a worst slack-max value of **-0.32 ns** in the `ss_n40C_1v28` corner. These reports must not be described as fully timing-clean. Setup, hold, and reset recovery/removal checks should be reviewed separately before claiming sign-off.
+The selected evidence covers synthesis, floorplanning, clock-tree synthesis (CTS), global routing, detailed routing, and the final routed layout.
 
-## 9. Reproducibility Notes
+### Synthesis
 
-The STA scripts may rely on an installed OpenROAD-flow-scripts checkout and SKY130HD libraries. Those external dependencies are not bundled in this repository. Update paths as needed for your environment and preserve the SDC and library conditions when comparing results.
+![Synthesis report](Screenshots/04_Synthesis_Report.png)
 
-## 10. Limitations and Future Work
+### Floorplanning
 
-- Review the reported setup, hold, and reset removal violations.
-- Repeat STA with verified libraries, parasitics, and constraints.
-- Record tool versions and the exact implementation configuration.
-- Re-run the complete flow after any approved RTL or physical-design change.
-- Perform the appropriate sign-off checks before making fabrication-readiness claims.
+![Floorplan report](Screenshots/05_Floorplan_Report.png)
 
-## 11. License
+### Clock-tree synthesis
 
-No license is specified. Add a license only if you have the rights to grant its terms.
+![Clock tree synthesis report](Screenshots/07_CTS_Report.png)
+
+### Global routing
+
+![Global route timing report](Screenshots/08_Global_Route_Timing.png)
+
+### Detailed routing and DRC
+
+![Detailed routing DRC report](Screenshots/09_Detailed_Routing_DRC.png)
+
+The recorded detailed-routing log reports zero detailed-route violations and zero antenna, net, and pin violations for that run. This result alone does not establish complete manufacturing sign-off.
+
+### Final routed layout
+
+![Final routed layout](Screenshots/10_Final_Routed_Layout.png)
+
+### GDSII layout view
+
+![GDSII layout](Screenshots/13_GDSII_Layout.png)
+
+## 7. Sixteen-Corner Static Timing Analysis
+
+The project includes scripts and summary files for 16 SKY130HD library corners. Process, voltage, and temperature conditions affect cell and path delays.
+
+![16-corner STA summary](Screenshots/12A_STA_16_Corner_Summary.png)
+
+**Timing status: review required.** The supplied summary marks multiple corners as `REVIEW`. It reports a worst `Slack Min` of **-2.53 ns** and a `Slack Max` of **-0.32 ns** for `ss_n40C_1v28`. Setup, hold, and reset recovery/removal checks must be assessed separately. Do not describe this result as fully timing-clean or sign-off complete.
+
+## 8. Reproducibility
+
+The simulation commands above require Icarus Verilog. The STA and physical-design scripts may depend on an installed OpenROAD-flow-scripts checkout and SKY130HD platform libraries; these external dependencies are not bundled here. Check the paths and tool versions in your environment before rerunning the flow.
+
+## 9. Limitations and Future Work
+
+- Investigate setup, hold, and reset-removal violations reported by the multi-corner analysis.
+- Verify the timing constraints, libraries, and parasitic assumptions used by each run.
+- Record exact tool versions and configuration files for reproducibility.
+- Re-run STA after any approved RTL or implementation change.
+- Complete applicable sign-off checks before making fabrication-readiness claims.
+
+## 10. License
+
+No license is specified in this repository. Add a license only if you have the right to distribute the project under its terms.
+

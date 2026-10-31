@@ -1,5 +1,11 @@
 # Automatic Fan Controller ASIC
 
+## 🎥 Project Demonstration Video
+
+[▶ Watch the Automatic Fan Controller ASIC Project Demo](https://drive.google.com/file/d/10SVH2H9hRps-5wYSQLu64B2d8q9wRsPJ/view?usp=drivesdk)
+
+---
+
 **Verilog RTL · SKY130HD · OpenROAD · Physical Design · 16-Corner Static Timing Analysis**
 
 ## 1. Project Overview
